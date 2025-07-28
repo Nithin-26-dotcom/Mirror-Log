@@ -26,7 +26,6 @@ const userSchema = new mongoose.Schema(
     refreshToken: {
       type: String,
     },
-    Pages: [{ type: mongoose.Types.ObjectId, ref: "Page" }],
   },
   { timestamps: true }
 );
