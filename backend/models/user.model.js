@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema(
     refreshToken: {
       type: String,
     },
+    isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
@@ -42,17 +43,33 @@ userSchema.methods.comparePassword = async function (password) {
 };
 
 userSchema.methods.generateRefreshToken = function () {
-  return jwt.sign({ id: this._id }, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
-  });
+  return jwt.sign(
+    { id: this._id, role: this.role },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: "7d",
+    }
+  );
 };
 
 userSchema.methods.generateAccessToken = function () {
-  return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "1h",
-  });
+  return jwt.sign(
+    { id: this._id, role: this.role },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: "2h",
+    }
+  );
 };
+
+// userSchema.set("toJSON", {
+//   transform: function (doc, ret) {
+//     delete ret.password;
+//     delete ret.refreshToken;
+//     return ret;
+//   },
+// });
 
 const User = mongoose.model("User", userSchema);
 
-export { User };
+export default User;

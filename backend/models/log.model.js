@@ -6,7 +6,6 @@ const logSchema = new mongoose.Schema(
     page: { type: mongoose.Types.ObjectId, ref: "Page" },
     content: { type: String, required: true },
     tag: { type: mongoose.Types.ObjectId, ref: "Tag" }, // e.g., '@done', '@stuck'
-    topic: { type: String }, // e.g., "DP", "Knapsack"
   },
   {
     timestamps: true,

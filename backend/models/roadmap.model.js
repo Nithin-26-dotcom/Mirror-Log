@@ -4,7 +4,7 @@ const roadmapSchema = new mongoose.Schema(
     startDate: Date,
     endDate: Date,
     isRecurring: { type: Boolean, default: false },
-
+    pageId: { type: mongoose.Types.ObjectId, ref: "Page", required: true },
     subheadings: [
       {
         title: String,

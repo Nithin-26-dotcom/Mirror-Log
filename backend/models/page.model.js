@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
 const pageSchema = new mongoose.Schema(
   {
-    createdBy: { type: mongoose.Types.ObjectId, ref: "User" },
+    createdBy: { type: mongoose.Types.ObjectId, ref: "User", required: true },
     title: { type: String, required: true },
     description: { type: String },
 
     topicTags: [String], // e.g., ["DP", "Knapsack", "Memoization"]
-    roadmap: { type: mongoose.Types.ObjectId, ref: "Roadmap" },
   },
   {
     timestamps: true,
