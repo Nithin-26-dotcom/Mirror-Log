@@ -35,10 +35,12 @@ const listMyPages = asyncHandler(async (req, res) => {
 });
 
 // @route GET /api/pages/:id
-const getPage = asyncHandler(async (req, res) => {
+const getPageById = asyncHandler(async (req, res) => {
+  console.log(req.user);
+  console.log(req.user.id);
   const page = await Page.findOne({
-    _id: req.params.id,
-    createdBy: req.user._id,
+    _id: req.params.pageId,
+    createdBy: req.user.id,
   });
   if (!page) throw new ApiError(404, "Page not found or not authorized");
   return res.status(200).json(new ApiResponse(200, page, "Page fetched"));
@@ -48,7 +50,7 @@ const getPage = asyncHandler(async (req, res) => {
 const updatePage = asyncHandler(async (req, res) => {
   const { title, description, topicTags } = req.body;
   const page = await Page.findOne({
-    _id: req.params.id,
+    _id: req.params.pageId,
     createdBy: req.user._id,
   });
   if (!page) throw new ApiError(404, "Page not found or not authorized");
@@ -64,11 +66,11 @@ const updatePage = asyncHandler(async (req, res) => {
 // @route DELETE /api/pages/:id
 const deletePage = asyncHandler(async (req, res) => {
   const deleted = await Page.findOneAndDelete({
-    _id: req.params.id,
+    _id: req.params.pageId,
     createdBy: req.user._id,
   });
   if (!deleted) throw new ApiError(404, "Page not found or not authorized");
   return res.status(200).json(new ApiResponse(200, null, "Page deleted"));
 });
 
-export { createPage, listMyPages, getPage, updatePage, deletePage };
+export { createPage, listMyPages, getPageById, updatePage, deletePage };

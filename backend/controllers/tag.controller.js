@@ -21,7 +21,7 @@ const createTag = asyncHandler(async (req, res) => {
   if (isDefault && pageRef) {
     throw new ApiError(400, "Default tags cannot be tied to a specific page.");
   }
-  if (isDefault && req.body.user.role !== "admin") {
+  if (isDefault && req.user.role !== "admin") {
     throw new ApiError(403, "Only admins can create default tags.");
   }
 
@@ -53,15 +53,21 @@ const listTags = asyncHandler(async (req, res) => {
 
   const pageobj = await Page.findOne({
     _id: pageId,
-    createdBy: req.user._id,
+    createdBy: req.user.id,
   });
   if (!pageobj) throw new ApiError(404, "Page not found or not authorized");
 
   const tags = await Tag.find({
-    $or: [{ isDefault: true }, { pageId: pageId }],
+    $or: [{ isDefault: true }, { pageId }],
   }).sort({ isDefault: -1, name: 1 });
 
   return res.status(200).json(new ApiResponse(200, tags, "Tags fetched"));
+});
+
+const getTagById = asyncHandler(async (req, res) => {
+  const tag = await Tag.findById(req.params.id);
+  if (!tag) throw new ApiError(404, "Tag not found");
+  return res.status(200).json(new ApiResponse(200, tag, "Tag fetched"));
 });
 
 // @route PATCH /api/tags/:id
@@ -69,7 +75,7 @@ const updateTag = asyncHandler(async (req, res) => {
   const tag = await Tag.findById(req.params.id);
   if (!tag) throw new ApiError(404, "Tag not found");
 
-  if (tag.isDefault) {
+  if (tag.isDefault && req.user.role !== "admin") {
     throw new ApiError(403, "Cannot modify default tag");
   }
 
@@ -95,7 +101,8 @@ const deleteTag = asyncHandler(async (req, res) => {
   if (!tag) throw new ApiError(404, "Tag not found");
 
   // prevent accidental deletion of system tags
-  if (tag.isDefault) throw new ApiError(403, "Cannot delete default tag");
+  if (tag.isDefault && req.user.role !== "admin")
+    throw new ApiError(403, "Cannot delete default tag");
 
   const page = await Page.findOne({ _id: tag.pageId });
 
@@ -108,4 +115,4 @@ const deleteTag = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, null, "Tag deleted"));
 });
 
-export { createTag, listTags, updateTag, deleteTag };
+export { createTag, listTags, getTagById, updateTag, deleteTag };

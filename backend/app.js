@@ -6,9 +6,11 @@ import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
-// import pageRoutes from "./routes/page.routes.js";
-// import logRoutes from "./routes/log.routes.js";
+import pageRoutes from "./routes/page.routes.js";
+import logRoutes from "./routes/log.routes.js";
+import tagRoutes from "./routes/tag.routes.js";
 // import roadmapRoutes from "./routes/roadmap.routes.js";
+// import todoRoutes from "./routes/todo.routes.js";
 
 const app = express();
 
@@ -21,9 +23,10 @@ app.use(morgan("dev"));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
-// app.use("/api/pages", pageRoutes);
+app.use("/api/pages", pageRoutes);
+app.use("/api/logs", logRoutes);
+app.use("/api/tags", tagRoutes);
 // app.use("/api/todos", todoRoutes);
-// app.use("/api/logs", logRoutes);
 // app.use("/api/roadmaps", roadmapRoutes);
 
 // Health check

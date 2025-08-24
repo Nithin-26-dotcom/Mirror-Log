@@ -74,6 +74,7 @@ const deleteMe = asyncHandler(async (req, res) => {
 // ADMIN
 // @route GET /api/admin/users
 const adminListUsers = asyncHandler(async (req, res) => {
+  console.log(req.user);
   if (req.user.role !== "admin") throw new ApiError(403, "Forbidden");
 
   const users = await User.find()

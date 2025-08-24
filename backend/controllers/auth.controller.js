@@ -7,14 +7,18 @@ import { setAuthCookies, clearAuthCookies, verifyToken } from "../utils/jwt.js";
 
 // @route POST /api/auth/register
 const register = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
   if (!username || !email || !password) {
     throw new ApiError(400, "username, email, password are required");
+  }
+  if (!role) {
+    // throw new ApiError(400, "role is required");
+    role = "user";
   }
   const exists = await User.findOne({ $or: [{ email }, { username }] });
   if (exists) throw new ApiError(409, "Username or email already in use");
 
-  const user = await User.create({ username, email, password });
+  const user = await User.create({ username, email, password, role });
 
   return res
     .status(201)
