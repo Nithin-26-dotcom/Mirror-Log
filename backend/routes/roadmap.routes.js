@@ -3,13 +3,24 @@ import {
   createRoadmap,
   getRoadmapByPage,
   updateRoadmap,
+  deleteRoadmap,
+  addTodo,
+  toggleTodo,
+  deleteTodo,
 } from "../controllers/roadmap.controller.js";
-import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.post("/:pageId", verifyJWT, createRoadmap);
-router.get("/:pageId", verifyJWT, getRoadmapByPage);
-router.put("/:pageId", verifyJWT, updateRoadmap);
+router.post("/", createRoadmap);
+router.get("/:pageId", getRoadmapByPage);
+router.put("/:roadmapId", updateRoadmap);
+router.delete("/:roadmapId", deleteRoadmap);
+
+router.post("/:roadmapId/subheading/:subheadingIndex/todo", addTodo);
+router.patch("/todo/:todoId/toggle", toggleTodo);
+router.delete(
+  "/:roadmapId/subheading/:subheadingIndex/todo/:todoId",
+  deleteTodo
+);
 
 export default router;

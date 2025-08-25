@@ -9,8 +9,7 @@ import userRoutes from "./routes/user.routes.js";
 import pageRoutes from "./routes/page.routes.js";
 import logRoutes from "./routes/log.routes.js";
 import tagRoutes from "./routes/tag.routes.js";
-// import roadmapRoutes from "./routes/roadmap.routes.js";
-// import todoRoutes from "./routes/todo.routes.js";
+import roadmapRoutes from "./routes/roadmap.routes.js";
 
 const app = express();
 
@@ -26,8 +25,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/pages", pageRoutes);
 app.use("/api/logs", logRoutes);
 app.use("/api/tags", tagRoutes);
-// app.use("/api/todos", todoRoutes);
-// app.use("/api/roadmaps", roadmapRoutes);
+app.use("/api/roadmaps", roadmapRoutes);
 
 // Health check
 app.get("/", (req, res) => {
