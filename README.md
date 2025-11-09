@@ -33,29 +33,36 @@ It combines **daily logging**, **goal roadmaps**, and **activity insights** — 
 ---
 
 ## 🗂️ Folder Structure
+
 ```
-
-MirrorLog/
+MirrorLogs/
 │
-├── backend/           # Express API (controllers, routes, models)
-│   ├── controllers/
-│   ├── routes/
-│   ├── models/
-│   └── utils/
+├── backend/           # Express API
+│   ├── controllers/  # Route controllers
+│   ├── db/          # Database configurations
+│   ├── middlewares/ # Custom middleware functions
+│   ├── models/      # Database models
+│   ├── routes/      # API routes
+│   ├── utils/       # Utility functions
+│   ├── .env         # Environment variables
+│   ├── app.js       # Express app configuration
+│   ├── index.js     # Server entry point
+│   └── package.json # Backend dependencies
 │
-├── frontend/          # React frontend (Vite + Tailwind)
-│   ├── src/
-│   │   ├── api/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── pages/
-│   │   ├── hooks/
-│   │   └── utils/
-│   └── public/
+├── frontend/         # React frontend (Vite)
+│   ├── node_modules/
+│   ├── public/      # Static assets
+│   ├── src/         # Source files
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── README.md
+│   └── vite.config.js
 │
+├── .gitignore
 └── README.md
-
-````
+```
 
 ---
 
@@ -115,7 +122,7 @@ Then open:
 * 🎓 Vasavi College of Engineering, Hyderabad
 * 🥇 Elite Topper (Top 2%) – NPTEL C Programming, IIT Kharagpur
 * 💼 Passionate about Full Stack Development & Problem Solving
-* 📧 [nithin@test.com](nithinkumargoud1234@gmail.com)
+* 📧 [Email me](mailto:nithinkumargoud1234@gmail.com)
 * 🌐 [LinkedIn]([https://linkedin.com/in/](https://www.linkedin.com/in/nitin-panjugula)) *(add yours later)*
 
 ---
