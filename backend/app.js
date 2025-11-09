@@ -17,9 +17,8 @@ const app = express();
 app.use(cookieParser(process.env.COOKIE_SECRET || "defaultsecret"));
 
 const allowedOrigins = [
-  "http://localhost:5173",  // development
-  "http://localhost:3000",  // potential local production build
-  "https://yourproductiondomain.com", // replace with your actual domain
+  "http://localhost:5173",
+  "https://mirror-log.vercel.app", 
 ];
 
 app.use(
