@@ -15,7 +15,13 @@ const app = express();
 
 // Middleware
 app.use(cookieParser(process.env.COOKIE_SECRET || "defaultsecret"));
-app.use(cors());
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // your frontend
+    credentials: true, // allow cookies/headers
+  })
+);
 app.use(express.json());
 app.use(morgan("dev"));
 

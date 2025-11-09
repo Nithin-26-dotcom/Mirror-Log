@@ -8,18 +8,20 @@ import {
   toggleTodo,
   deleteTodo,
 } from "../controllers/roadmap.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.post("/", createRoadmap);
-router.get("/:pageId", getRoadmapByPage);
-router.put("/:roadmapId", updateRoadmap);
-router.delete("/:roadmapId", deleteRoadmap);
+router.post("/", verifyJWT, createRoadmap);
+router.get("/:pageId", verifyJWT, getRoadmapByPage);
+router.put("/:roadmapId", verifyJWT, updateRoadmap);
+router.delete("/:roadmapId", verifyJWT, deleteRoadmap);
 
-router.post("/:roadmapId/subheading/:subheadingIndex/todo", addTodo);
-router.patch("/todo/:todoId/toggle", toggleTodo);
+router.post("/:roadmapId/subheading/:subheadingIndex/todo", verifyJWT, addTodo);
+router.patch("/todo/:todoId/toggle", verifyJWT, toggleTodo);
 router.delete(
   "/:roadmapId/subheading/:subheadingIndex/todo/:todoId",
+  verifyJWT,
   deleteTodo
 );
 

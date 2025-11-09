@@ -1,5 +1,6 @@
 // controllers/page.controller.js
 import Page from "../models/page.model.js";
+import Roadmap from "../models/roadmap.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -16,11 +17,27 @@ const createPage = asyncHandler(async (req, res) => {
     throw new ApiError(400, "topicTags must be an array");
   }
 
+  // Check for duplicate page title for this user (case-insensitive)
+  const existingPage = await Page.findOne({
+    createdBy: req.user._id,
+    title: { $regex: new RegExp(`^${title.trim()}$`, "i") }, // Case-insensitive match
+  });
+
+  if (existingPage) {
+    throw new ApiError(409, `A page with the title "${title}" already exists. Please choose a different name.`);
+  }
+
   const page = await Page.create({
     createdBy: req.user._id,
-    title,
+    title: title.trim(),
     description,
     topicTags: Array.isArray(topicTags) ? topicTags : [],
+  });
+
+  // Automatically create an empty roadmap for this page
+  await Roadmap.create({
+    pageId: page._id,
+    subheadings: [],
   });
 
   return res.status(201).json(new ApiResponse(201, page, "Page created"));
@@ -55,7 +72,19 @@ const updatePage = asyncHandler(async (req, res) => {
   });
   if (!page) throw new ApiError(404, "Page not found or not authorized");
 
-  if (title != null) page.title = title;
+  // Check for duplicate page title if title is being updated
+  if (title != null && title.trim() !== page.title) {
+    const existingPage = await Page.findOne({
+      createdBy: req.user._id,
+      _id: { $ne: req.params.pageId }, // Exclude current page
+      title: { $regex: new RegExp(`^${title.trim()}$`, "i") }, // Case-insensitive match
+    });
+
+    if (existingPage) {
+      throw new ApiError(409, `A page with the title "${title}" already exists. Please choose a different name.`);
+    }
+    page.title = title.trim();
+  }
   if (description != null) page.description = description;
   if (Array.isArray(topicTags)) page.topicTags = topicTags;
 
