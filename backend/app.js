@@ -16,10 +16,25 @@ const app = express();
 // Middleware
 app.use(cookieParser(process.env.COOKIE_SECRET || "defaultsecret"));
 
+const allowedOrigins = [
+  "http://localhost:5173",  // development
+  "http://localhost:3000",  // potential local production build
+  "https://yourproductiondomain.com", // replace with your actual domain
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend
-    credentials: true, // allow cookies/headers
+    origin: function(origin, callback) {
+      // allow requests with no origin (like mobile apps, curl, postman)
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true,
   })
 );
 app.use(express.json());
