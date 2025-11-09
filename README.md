@@ -123,7 +123,7 @@ Then open:
 * 🥇 Elite Topper (Top 2%) – NPTEL C Programming, IIT Kharagpur
 * 💼 Passionate about Full Stack Development & Problem Solving
 * 📧 [Email me](mailto:nithinkumargoud1234@gmail.com)
-* 🌐 [LinkedIn]([https://linkedin.com/in/](https://www.linkedin.com/in/nitin-panjugula)) *(add yours later)*
+* 🌐 [LinkedIn]([https://linkedin.com/in/](https://www.linkedin.com/in/nitin-panjugula))
 
 ---
 
